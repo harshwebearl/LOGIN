@@ -9,7 +9,7 @@ const fs = require('fs');
 // Multer setup for photo upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.resolve('C:/Users/vansh/OneDrive/Desktop/API/uploads'));
+        cb(null, path.join(__dirname, '../uploads'));
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname);
@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 // Serve user photos with robust fallback to default.png
 router.get('/photo/:filename', (req, res) => {
     try {
-        const uploadsDir = path.resolve('C:/Users/vansh/OneDrive/Desktop/API/uploads');
+        const uploadsDir = path.join(__dirname, '../uploads');
         const filePath = path.join(uploadsDir, req.params.filename);
         const defaultPath = path.join(uploadsDir, 'default.png');
         if (fs.existsSync(filePath)) {
@@ -29,8 +29,7 @@ router.get('/photo/:filename', (req, res) => {
             return res.sendFile(defaultPath);
         }
     } catch (err) {
-        // On any error, serve default image
-        const defaultPath = path.resolve('C:/Users/vansh/OneDrive/Desktop/API/uploads/default.png');
+        const defaultPath = path.join(__dirname, '../uploads', 'default.png');
         return res.sendFile(defaultPath);
     }
 });
