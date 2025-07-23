@@ -12,6 +12,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/userdb';
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // Middleware
 app.use(bodyParser.json());
@@ -58,6 +59,12 @@ mongoose.connect(MONGO_URI)
       console.log(`Server running on port ${PORT}`);
       console.log(`Frontend: http://localhost:${PORT}/`);
       console.log(`API Docs: http://localhost:${PORT}/api-docs`);
+      console.log('--- API Endpoints ---');
+      console.log(`Register: POST ${BASE_URL}/api/auth/register`);
+      console.log(`Login:    POST ${BASE_URL}/api/auth/login`);
+      console.log(`Profile View:  GET ${BASE_URL}/api/profile`);
+      console.log(`Profile Edit:  PUT ${BASE_URL}/api/profile`);
+      console.log('---------------------');
     });
   })
   .catch(err => {
